@@ -2,9 +2,11 @@
 using Microsoft.AspNet.Identity;
 using System.Web.Http;
 using System.Linq;
+using GigHub.DTOs;
 
 namespace GigHub.Controllers
 {
+
     [Authorize]
     public class AttendancesController : ApiController
     {
@@ -17,18 +19,18 @@ namespace GigHub.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Attend([FromBody] int gigId)
+        public IHttpActionResult Attend(AttendanceDTO dto)
         {
             var userId = User.Identity.GetUserId();
             
-            if (_context.Attendances.Any(a => a.AttendeeId == userId && a.GigId == gigId))
+            if (_context.Attendances.Any(a => a.AttendeeId == userId && a.GigId == dto.GigId ))
             {
                 return BadRequest("The attendance allready exists.");
             }
 
             var attendance = new Attendance
             {
-                GigId = gigId,
+                GigId      = dto.GigId,
                 AttendeeId = userId
             };
             _context.Attendances.Add(attendance);
