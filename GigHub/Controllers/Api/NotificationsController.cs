@@ -23,18 +23,10 @@ namespace GigHub.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
             var notifications = _context.UserNotifications
-                .Where(un => un.UserId == userId)
+                .Where(un => un.UserId == userId && !un.IsRead)
                 .Select(un => un.Notification)
                 .Include(n => n.Gig.Artist)
-                .ToList();
-
-            // Not the mapping pattern below is important. 
-            // A Notification has a Gig that it needs to map, So the Gig mapping needs to be before the Notification
-            // A Gig has a Application user that it need to map, So the mapping for Application user must come first.
-            Mapper.CreateMap<ApplicationUser, UserDto>();
-            Mapper.CreateMap<Genre, GenreDto>();
-            Mapper.CreateMap<Gig, GigDto>();
-            Mapper.CreateMap<Notification, NotificationDto>();
+                .ToList();            
 
             return notifications.Select(Mapper.Map<Notification,NotificationDto>);
         }
