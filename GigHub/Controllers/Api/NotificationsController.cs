@@ -1,4 +1,5 @@
-﻿using GigHub.DTOs;
+﻿using AutoMapper;
+using GigHub.DTOs;
 using GigHub.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
@@ -27,25 +28,15 @@ namespace GigHub.Controllers.Api
                 .Include(n => n.Gig.Artist)
                 .ToList();
 
-            return notifications.Select(n => new NotificationDto 
-            {
-                DateTime = n.DateTime,
-                Gig = new GigDto
-                {
-                    Artist = new UserDto
-                    {
-                        Id   = n.Gig.Artist.Id,
-                        Name = n.Gig.Artist.Name
-                    },
-                    DateTime   = n.Gig.DateTime,
-                    Id         = n.Gig.Id,
-                    IsCanceled = n.Gig.IsCanceled,
-                    Venue      = n.Gig.Venue
-                },
-                OriginalDateTime = n.OriginalDateTime,
-                OriginalVenue    = n.OriginalVenue,
-                Type             = n.Type
-            });
+            // Not the mapping pattern below is important. 
+            // A Notification has a Gig that it needs to map, So the Gig mapping needs to be before the Notification
+            // A Gig has a Application user that it need to map, So the mapping for Application user must come first.
+            Mapper.CreateMap<ApplicationUser, UserDto>();
+            Mapper.CreateMap<Genre, GenreDto>();
+            Mapper.CreateMap<Gig, GigDto>();
+            Mapper.CreateMap<Notification, NotificationDto>();
+
+            return notifications.Select(Mapper.Map<Notification,NotificationDto>);
         }
 
     }
