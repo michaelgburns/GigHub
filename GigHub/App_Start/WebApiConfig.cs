@@ -17,6 +17,12 @@ namespace GigHub
                  ;
             config.MapHttpAttributeRoutes();
 
+            //config.Routes.MapHttpRoute(
+            //    name: "ApiActionMethod",
+            //    routeTemplate: "api/{controller}/{action}",
+            //    defaults: new { action = RouteParameter.Optional }
+            //);
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

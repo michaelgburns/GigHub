@@ -38,8 +38,7 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/lib")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/lib")  
     @RenderSection("scripts", required: false)
 
     <script type="text/x-template" id="notifications-template">
@@ -73,6 +72,13 @@
                         return compiled({ notifications: notifications });
                     },
                     placement: "bottom"
+                }).on("shown.bs.popover", function () {
+                    $.post("/api/Notifications/MarkAsRead")
+                        .done(function () {
+                            $(".js-notifications-count")
+                                .text("")
+                                .addClass("hide");
+                        });
                 });
             });
 

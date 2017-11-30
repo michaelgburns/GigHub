@@ -14,7 +14,7 @@ namespace GigHub.Models
         [Column(Order = 2)]
         public int NotificationId { get; private set; }
 
-        public bool IsRead { get; set; }
+        public bool IsRead { get; private set; }
 
         // navigation properties to navigate to related properties.
         public ApplicationUser User { get; private set; }
@@ -31,6 +31,11 @@ namespace GigHub.Models
 
             User         = user;
             Notification = notification;           
+        }
+
+        public void Read()
+        {
+            IsRead = true;
         }
     }
 }
