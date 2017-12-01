@@ -22,9 +22,9 @@
                 @Html.ActionLink("GigHub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">                    
+                <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Add a Gig", "Create", "Gigs")</li>
-                    
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -38,16 +38,17 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/lib")  
+    @Scripts.Render("~/bundles/lib")
+    @Scripts.Render("~/bundles/app")
     @RenderSection("scripts", required: false)
 
     <script type="text/x-template" id="notifications-template">
         <ul>
             <%
             _.each(notifications, function(notification){
-                if(notification.type == 1){ %>
-                    <li><%= notification.gig.artist.name %> has canceled the gig at <%= notification.gig.venue %> at <%= moment(notification.gig.dateTime).format("D MMM H:mm") %>.</li>
-                <%}
+            if(notification.type == 1){ %>
+            <li><%= notification.gig.artist.name %> has canceled the gig at <%= notification.gig.venue %> at <%= moment(notification.gig.dateTime).format("D MMM H:mm") %>.</li>
+            <%}
             })
             %>
         </ul>
