@@ -9,6 +9,9 @@ using System.Web.Mvc;
 
 namespace GigHub.Controllers
 {
+    /// <summary>
+    /// Gigs controller
+    /// </summary>
     public class GigsController : Controller
     {
         private readonly ApplicationDbContext _context;
