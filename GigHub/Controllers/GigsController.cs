@@ -37,25 +37,18 @@ namespace GigHub.Controllers
         [Authorize]
         public ActionResult Attending()
         {
-            var userId = User.Identity.GetUserId();
-            var gigs = _context.Attendances                
-                .Where(a => a.AttendeeId == userId)
-                .Select(a => a.Gig)
-                .Include(g => g.Artist)
-                .Include(g => g.Genre)
-                .ToList();
-            var attendances = _context.Attendances.Where(a => a.AttendeeId == userId && a.Gig.DateTime > DateTime.Now).ToList().ToLookup(a => a.GigId);
+            var userId = User.Identity.GetUserId();  
 
             var viewModel = new GigsViewModel
             {
-                UpcomingGigs = gigs,
+                UpcomingGigs = GetGigsUserAttending(userId),
                 ShowActions  = User.Identity.IsAuthenticated,
                 Heading      = "Gigs I'm Attending",
-                Attendances = attendances
+                Attendances  = GetFutureAttendances(userId).ToLookup(a => a.GigId)
             };
 
             return View("Gigs", viewModel);
-        }
+        }       
 
         
         [Authorize]
@@ -162,6 +155,27 @@ namespace GigHub.Controllers
             return View("Details", viewModel);
 
         }
-    }
+
+        #region Private helper methods
+
+        private System.Collections.Generic.List<Attendance> GetFutureAttendances(string userId)
+        {
+            var attendances = _context.Attendances.Where(a => a.AttendeeId == userId && a.Gig.DateTime > DateTime.Now).ToList();
+            return attendances;
+        }
+
+        private System.Collections.Generic.List<Gig> GetGigsUserAttending(string userId)
+        {
+            var gigs = _context.Attendances
+                .Where(a => a.AttendeeId == userId)
+                .Select(a => a.Gig)
+                .Include(g => g.Artist)
+                .Include(g => g.Genre)
+                .ToList();
+            return gigs;
+        }
+
+        #endregion
+    }  
 
 }
