@@ -7,6 +7,8 @@ namespace GigHub.Controllers
 {
     public class FolloweesController : Controller
     {
+        //I Added this on branch B which is branched from branch A
+
         private ApplicationDbContext _context;
 
         public FolloweesController()
