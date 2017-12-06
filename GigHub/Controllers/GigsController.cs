@@ -12,7 +12,9 @@ namespace GigHub.Controllers
     /// Gigs controller
     /// </summary>
     public class GigsController : Controller
-    {              
+    {   
+        //Added this line in BranchA
+        
         private readonly IUnitOfWork _unitOfWork;
 
         public GigsController(IUnitOfWork unitOfWork)
