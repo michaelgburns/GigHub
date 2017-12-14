@@ -11,6 +11,7 @@ namespace GigHub.Models
         public DbSet<Following> Followings { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
+        public override IDbSet<ApplicationUser> Users { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
